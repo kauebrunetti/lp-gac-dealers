@@ -27,7 +27,7 @@
   #pageInner { height: 100dvh; min-height: 0; overflow: hidden; }
   #hero { position: absolute; inset: 0; overflow: hidden; }
   #stage { position: absolute; inset: 0; }
-  #heroImg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; }
+  #heroImg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
   #stage .veil { position: absolute; inset: 0; pointer-events: none; }
   #stageGrid { position: absolute; inset: 0; display: grid; grid-template-rows: auto 1fr auto;
     padding: clamp(12px, 1.6vw, 26px) calc(clamp(352px, 28vw, 448px) + clamp(24px, 4.2vw, 76px) + 30px) clamp(18px, 2.2vw, 38px) clamp(24px, 4.2vw, 76px); }
@@ -89,7 +89,7 @@
   #formZone { position: absolute; top: auto; height: auto;
     bottom: clamp(14px, 1.8vw, 30px);
     right: clamp(14px, 2vw, 38px);
-    width: clamp(248px, 22vw, 344px); display: flex; align-items: flex-end;
+    width: clamp(272px, 22vw, 344px); display: flex; align-items: flex-end;
     transform-origin: 100% 100%; }
   #formCard { max-height: none; overflow: hidden; }
 
@@ -97,8 +97,7 @@
     body { overflow-y: auto; }
     #pageInner { height: auto !important; overflow: visible; display: grid; }
     #hero { position: relative; inset: auto; overflow: visible; }
-    #stage { position: relative; left: auto; top: auto; transform: none; width: 100%; height: auto; aspect-ratio: 1448 / 1086; }
-    #heroImg { object-position: 50% 50%; }
+    #stage { position: relative; inset: auto; width: 100%; height: auto; aspect-ratio: 1448 / 1086; }
     #stageGrid { display: none !important; }
     #mobileHead { display: flex; flex-direction: column; gap: 16px; padding: 22px 20px 18px; }
     #mobileSystems { display: grid !important; }
@@ -116,7 +115,7 @@
 
   <div id="hero">
     <div id="stage">
-      <img id="heroImg" src="./assets/casa-gac-aion-v2.png" alt="Casa residencial com sistema fotovoltaico, veículo elétrico GAC carregando e bateria de armazenamento">
+      <img id="heroImg" src="./assets/casa-gac-hero.jpg" alt="Casa residencial com sistema fotovoltaico, veículo elétrico GAC carregando e bateria de armazenamento">
       <div class="veil" style="background: linear-gradient(170deg, rgba(6,10,8,0.8) 0%, rgba(6,10,8,0.32) 26%, rgba(6,10,8,0) 44%);"></div>
       <div class="veil" style="background: linear-gradient(0deg, rgba(6,10,8,0.62) 0%, rgba(6,10,8,0.26) 13%, rgba(6,10,8,0) 32%);"></div>
 
@@ -199,7 +198,7 @@
 
   <div id="formZone">
     <form id="leadForm" novalidate="" style="display: contents;">
-      <div id="formCard" style="width: 100%; display: flex; flex-direction: column; gap: 12px; padding: clamp(14px, 1.3vw, 19px) clamp(15px, 1.4vw, 20px); border-radius: 16px; border: 1px solid rgba(255,255,255,0.16); background: rgba(8,13,10,0.66); backdrop-filter: blur(18px);">
+      <div id="formCard" style="width: 100%; display: flex; flex-direction: column; gap: 10px; padding: clamp(13px, 1.2vw, 17px) clamp(14px, 1.3vw, 18px); border-radius: 16px; border: 1px solid rgba(255,255,255,0.16); background: rgba(8,13,10,0.66); backdrop-filter: blur(18px);">
 
         <div style="display: flex; flex-direction: column; gap: 6px;">
           <div style="display: flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #23D964;">
@@ -212,42 +211,42 @@
 
           <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
             <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Nome*</span>
-            <input type="text" name="nome" placeholder="Nome completo" required="" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
+            <input type="text" name="nome" placeholder="Nome completo" required="{{ true }}" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
           </label>
 
           <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
             <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">CPF/CNPJ*</span>
-            <input type="text" name="cpf_cnpj" data-doc="" placeholder="000.000.000-00" inputmode="numeric" maxlength="18" required="" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
+            <input type="text" name="cpf_cnpj" data-doc="" placeholder="000.000.000-00" inputmode="numeric" maxlength="18" required="{{ true }}" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
           </label>
 
           <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
             <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Telefone*</span>
-            <input type="tel" name="telefone" data-fone="" placeholder="(11) 9.0000-0000" inputmode="numeric" maxlength="16" required="" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
+            <input type="tel" name="telefone" data-fone="" placeholder="(11) 9.0000-0000" inputmode="numeric" maxlength="16" required="{{ true }}" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
           </label>
 
           <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
             <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Email*</span>
-            <input type="email" name="email" placeholder="nome@email.com" required="" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
+            <input type="email" name="email" placeholder="nome@email.com" required="{{ true }}" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
           </label>
 
           <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
             <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Endereço para instalação do carregador*</span>
-            <input type="text" name="endereco" placeholder="Rua / Avenida" required="" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
+            <input type="text" name="endereco" placeholder="Rua / Avenida" required="{{ true }}" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
           </label>
 
           <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
             <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Número da residência*</span>
-            <input type="text" name="numero" placeholder="Nº" required="" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
+            <input type="text" name="numero" placeholder="Nº" required="{{ true }}" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
           </label>
 
           <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
             <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Cidade*</span>
-            <input type="text" name="cidade" placeholder="Cidade" required="" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
+            <input type="text" name="cidade" placeholder="Cidade" required="{{ true }}" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
           </label>
 
           <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
             <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Estado em que você reside*</span>
-            <select name="estado" required="" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none; appearance: none; cursor: pointer; border-radius: 0;">
+            <select name="estado" required="{{ true }}" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none; appearance: none; cursor: pointer; border-radius: 0;">
               <option value="" style="background: #0b120e; color: #fff;">Selecione</option>
               <option value="AC" style="background: #0b120e; color: #fff;">Acre</option>
               <option value="AL" style="background: #0b120e; color: #fff;">Alagoas</option>
@@ -281,12 +280,12 @@
 
           <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
             <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">CEP*</span>
-            <input type="text" name="cep" data-cep="" placeholder="00000-000" inputmode="numeric" maxlength="9" required="" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
+            <input type="text" name="cep" data-cep="" placeholder="00000-000" inputmode="numeric" maxlength="9" required="{{ true }}" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
           </label>
 
           <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
             <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Tipo de local*</span>
-            <select name="tipo_local" required="" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none; appearance: none; cursor: pointer; border-radius: 0;">
+            <select name="tipo_local" required="{{ true }}" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none; appearance: none; cursor: pointer; border-radius: 0;">
               <option value="" style="background: #0b120e; color: #fff;">Selecione</option>
               <option value="Casa" style="background: #0b120e; color: #fff;">Casa</option>
               <option value="Apartamento" style="background: #0b120e; color: #fff;">Apartamento / Condomínio</option>
@@ -297,12 +296,12 @@
 
           <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
             <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Modelo do veículo*</span>
-            <input type="text" name="modelo_veiculo" placeholder="GAC AION Y" required="" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
+            <input type="text" name="modelo_veiculo" placeholder="GAC AION Y" required="{{ true }}" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
           </label>
 
           <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
             <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Concessionária GAC*</span>
-            <select name="concessionaria" required="" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none; appearance: none; cursor: pointer; border-radius: 0;">
+            <select name="concessionaria" required="{{ true }}" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none; appearance: none; cursor: pointer; border-radius: 0;">
               <option value="" style="background: #0b120e; color: #fff;">Selecione</option>
               <option value="GAC Abrão Reze Sorocaba" style="background: #0b120e; color: #fff;">GAC Abrão Reze Sorocaba</option>
               <option value="GAC Amazonas Anália Franco" style="background: #0b120e; color: #fff;">GAC Amazonas Anália Franco</option>
@@ -403,11 +402,11 @@ class Component extends DCLogic {
     var hero = document.getElementById('hero');
     if (hero) hero.style.removeProperty('height');
     if (!stageEl) return;
-    var W = stageEl.clientWidth, H = stageEl.clientHeight, iw = 1448, ih = 1086;
+    var W = stageEl.clientWidth, H = stageEl.clientHeight, iw = 2880, ih = 1200;
     if (!W || !H) return;
     var s = Math.max(W / iw, H / ih), dw = iw * s, dh = ih * s;
-    var py = window.matchMedia('(max-width: 900px)').matches ? 0.5 : 0.16;
-    var ox = (W - dw) * 0.5, oy = (H - dh) * py;
+    // the stage carries the image ratio exactly, so the drawn image fills it with no offset
+    var ox = (W - dw) * 0.5, oy = (H - dh) * 0.5;
     function box(id, fx, fy, fw, fh) {
       var el = document.getElementById(id); if (!el) return;
       el.style.left = (ox + fx * dw) + 'px';
@@ -433,19 +432,19 @@ class Component extends DCLogic {
       } else {
         var pageEl = document.getElementById('pageInner');
         var pr = pageEl.getBoundingClientRect();
-        var sr0 = stageEl.getBoundingClientRect();
-        // the battery caption ends at 0.755 of the image width — never cross it
-        var textRight = (sr0.left - pr.left) + 0.755 * sr0.width;
         var gapR = parseFloat(getComputedStyle(zone).right) || 24;
         var gapB = parseFloat(getComputedStyle(zone).bottom) || 24;
-        var avail = pr.width - gapR - textRight - 12;
-        var minW = 248;
-        var W = Math.max(minW, Math.min(344, avail));
+        // measured on the drawn image: battery caption ends at x 0.662, the
+        // photovoltaic caption occupies the frame down to y 0.18
+        var avail = pr.width - gapR - (ox + 0.6417 * dw) - 12;
+        var topLimit = oy + 0.18 * dh;
+        var minW = 272;
+        var W2 = Math.max(minW, Math.min(344, avail));
         zone.style.transform = 'none';
-        zone.style.width = W + 'px';
-        // the rendered card is W * s wide, so it must satisfy BOTH constraints
-        var s = Math.min(1, (pr.height - gapB - 16) / card.scrollHeight, avail / W);
-        zone.style.transform = s < 1 ? 'scale(' + s + ')' : 'none';
+        zone.style.width = W2 + 'px';
+        // the rendered card is W2 * s wide and must clear BOTH captions
+        var s2 = Math.min(1, (pr.height - gapB - topLimit - 2) / card.scrollHeight, avail / W2);
+        zone.style.transform = s2 < 1 ? 'scale(' + s2 + ')' : 'none';
       }
     }
     var row = document.getElementById('logoRow');
@@ -454,9 +453,9 @@ class Component extends DCLogic {
       var rr = row.getBoundingClientRect(), sr3 = stageEl.getBoundingClientRect();
       row.style.transform = 'translateX(' + (((sr3.width - rr.width) / 2) - (rr.left - sr3.left)) + 'px)';
     }
-    box('battFill', 0.6560, 0.5626, 0.0031, 0.0672);
-    disc('fxBattGlow', 0.6572, 0.5967, 0.0470);
-    disc('fxEv', 0.1222, 0.5267, 0.0230);
+    box('battFill', 0.5867, 0.5626, 0.0017, 0.0672);
+    disc('fxBattGlow', 0.5873, 0.5967, 0.0261);
+    disc('fxEv', 0.2901, 0.5267, 0.0128);
   }
   wireMasks() {
     function fone(v) {
