@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta charset="utf-8">
+<title>BeGreen · GAC AION Y · Energia própria para sua casa</title>
+<meta name="description" content="Carregador para veículo elétrico, energia fotovoltaica e bateria de armazenamento com projeto, homologação e instalação por equipe própria.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #070a08; }
+  * { box-sizing: border-box; }
+  a { color: #23D964; text-decoration: none; }
+  a:hover { color: #7cf0a4; }
+  input, select, button { font-family: inherit; }
+  input::placeholder { color: rgba(255,255,255,0.4); }
+  input:focus, select:focus { border-bottom-color: #23D964 !important; }
+  #btnEnviar:hover { background: #43ef7e !important; }
+  input:invalid[data-touched], select:invalid[data-touched] { border-bottom-color: #ff6b6b !important; }
+  #pageInner { height: 100dvh; min-height: 0; overflow: hidden; }
+  #hero { position: absolute; inset: 0; overflow: hidden; }
+  #stage { position: absolute; inset: 0; }
+  #heroImg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 16%; }
+  #stage .veil { position: absolute; inset: 0; pointer-events: none; }
+  #stageGrid { position: absolute; inset: 0; display: grid; grid-template-rows: auto 1fr auto;
+    padding: clamp(12px, 1.6vw, 26px) calc(clamp(352px, 28vw, 448px) + clamp(24px, 4.2vw, 76px) + 30px) clamp(18px, 2.2vw, 38px) clamp(24px, 4.2vw, 76px); }
+  .fx { position: absolute; pointer-events: none; mix-blend-mode: screen; will-change: opacity, transform; }
+
+  #fxSun { border-radius: 50%; filter: blur(0.3px);
+    background: radial-gradient(circle, rgba(255,240,205,0.72) 0%, rgba(255,214,140,0.26) 42%, rgba(255,205,120,0) 72%);
+    animation: sunBloom 14s cubic-bezier(.45,0,.25,1) infinite; }
+  #fxSun i { position: absolute; inset: -22%; border-radius: 50%;
+    background: conic-gradient(from 0deg, rgba(255,236,190,0) 0deg, rgba(255,240,210,0.3) 40deg, rgba(255,236,190,0) 88deg,
+      rgba(255,236,190,0) 180deg, rgba(255,240,210,0.22) 220deg, rgba(255,236,190,0) 268deg);
+    -webkit-mask: radial-gradient(circle, transparent 52%, #000 62%, #000 82%, transparent 95%);
+    mask: radial-gradient(circle, transparent 52%, #000 62%, #000 82%, transparent 95%);
+    animation: sunTurn 40s linear infinite, sunVeil 14s ease-in-out infinite; }
+  @keyframes sunBloom { 0% { opacity: 0.18; transform: scale(0.86); } 14% { opacity: 1; transform: scale(1); }
+    30% { opacity: 0.6; transform: scale(0.96); } 60%, 100% { opacity: 0.18; transform: scale(0.86); } }
+  @keyframes sunTurn { to { transform: rotate(360deg); } }
+  @keyframes sunVeil { 0% { opacity: 0; } 16% { opacity: 0.9; } 34% { opacity: 0.3; } 60%, 100% { opacity: 0; } }
+
+  #fxPanel { overflow: hidden; border-radius: 1px; }
+  #fxPanel span { position: absolute; top: -60%; bottom: -60%; width: 30%; left: -55%;
+    background: linear-gradient(105deg, rgba(255,255,255,0) 0%, rgba(226,244,255,0.55) 48%, rgba(255,255,255,0) 100%);
+    filter: blur(0.6px); transform: skewX(-22deg);
+    animation: panelGlide 14s cubic-bezier(.42,0,.2,1) infinite; }
+  @keyframes panelGlide { 0%, 6% { left: -55%; opacity: 0; } 10% { opacity: 1; } 26% { opacity: 1; }
+    32% { left: 118%; opacity: 0; } 100% { left: 118%; opacity: 0; } }
+
+  #battFill { position: absolute; overflow: hidden; border-radius: 1.5px; pointer-events: none; mix-blend-mode: screen; }
+  #battFill span { position: absolute; left: 0; right: 0; bottom: 0; height: 100%;
+    background: linear-gradient(0deg, rgba(40,205,110,0.92) 0%, rgba(96,235,150,0.9) 55%, rgba(190,255,220,0.95) 100%);
+    filter: blur(0.4px); animation: battPulse 3.4s ease-in-out infinite; }
+  @keyframes battPulse { 0%, 100% { opacity: 0.12; } 50% { opacity: 1; } }
+  #fxBattGlow { border-radius: 50%; opacity: 0; filter: blur(1px);
+    background: radial-gradient(circle, rgba(120,240,170,0.34) 0%, rgba(40,200,110,0.12) 46%, rgba(40,200,110,0) 72%);
+    animation: battHalo 3.4s ease-in-out infinite; }
+  @keyframes battHalo { 0%, 100% { opacity: 0.05; transform: scale(0.9); } 50% { opacity: 0.85; transform: scale(1.02); } }
+
+  #fxEv { border-radius: 50%; }
+  #fxEv span { position: absolute; inset: 0; border-radius: 50%;
+    border: 1px solid rgba(180,255,215,0.55); opacity: 0; filter: blur(0.2px);
+    animation: evPulse 14s cubic-bezier(.16,.7,.3,1) infinite; }
+  #fxEv span:nth-child(2) { animation-delay: 1.6s; }
+  #fxEv i { position: absolute; inset: 22%; border-radius: 50%; filter: blur(0.8px);
+    background: radial-gradient(circle, rgba(190,255,220,0.5) 0%, rgba(60,215,130,0.18) 52%, rgba(60,215,130,0) 76%);
+    animation: evBreath 14s ease-in-out infinite; }
+  @keyframes evPulse { 0%, 70% { transform: scale(0.42); opacity: 0; } 74% { opacity: 0.75; }
+    92% { transform: scale(1.05); opacity: 0; } 100% { transform: scale(1.05); opacity: 0; } }
+  @keyframes evBreath { 0%, 66% { opacity: 0; transform: scale(0.86); } 76% { opacity: 0.85; transform: scale(1.02); }
+    88% { opacity: 0.3; transform: scale(0.96); } 96%, 100% { opacity: 0; transform: scale(0.86); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    #battFill span, #fxBattGlow, #fxSun, #fxSun i, #fxPanel span, #fxEv span, #fxEv i { animation: none; }
+    #battFill span { opacity: 0.75; }
+    #fxSun { opacity: 0.6; }
+  }
+  #mobileHead { display: none; }
+
+  #formZone { position: absolute; top: 74px; bottom: clamp(14px, 1.8vw, 30px); right: clamp(14px, 2vw, 38px);
+    width: clamp(352px, 28vw, 448px); display: flex; align-items: flex-end; }
+  #formCard { max-height: 100%; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+  #formCard::-webkit-scrollbar { width: 6px; }
+  #formCard::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.18); border-radius: 3px; }
+
+  @media (max-width: 900px) {
+    body { overflow-y: auto; }
+    #pageInner { height: auto !important; overflow: visible; display: grid; grid-template-rows: auto auto auto; }
+    #hero { position: relative; inset: auto; overflow: visible; }
+    #stage { position: relative; inset: auto; width: 100%; height: auto; aspect-ratio: 1448 / 1086; }
+    #heroImg { object-position: 50% 50%; }
+    #stageGrid { display: none !important; }
+    #mobileHead { display: flex; flex-direction: column; gap: 16px; padding: 22px 20px 18px; }
+    #formZone { position: relative; inset: auto; width: auto; padding: 0 14px 22px; }
+    #formCard { max-height: none; overflow: visible; }
+    #fieldGrid { grid-template-columns: 1fr 1fr !important; }
+  }
+  @media (max-width: 460px) {
+    #fieldGrid { grid-template-columns: 1fr !important; }
+  }
+</style>
+</helmet>
+
+<div id="pageInner" style="position: relative; width: 100%; height: 100vh; min-height: 540px; overflow: hidden; background: #070a08; font-family: Outfit, Helvetica, sans-serif; color: #fff;">
+
+  <div id="hero">
+    <div id="stage">
+      <img id="heroImg" src="./assets/casa-gac-aion-v2.png" alt="Casa residencial com sistema fotovoltaico, veículo elétrico GAC carregando e bateria de armazenamento">
+      <div class="veil" style="background: linear-gradient(170deg, rgba(6,10,8,0.8) 0%, rgba(6,10,8,0.32) 26%, rgba(6,10,8,0) 44%);"></div>
+      <div class="veil" style="background: linear-gradient(0deg, rgba(6,10,8,0.62) 0%, rgba(6,10,8,0.26) 13%, rgba(6,10,8,0) 32%);"></div>
+
+      <div id="fxBattGlow" class="fx"></div>
+      <div id="battFill"><span></span></div>
+      <div id="fxEv" class="fx"><span></span><span></span><i></i></div>
+
+
+
+      <div id="stageGrid">
+        <div id="logoRow" style="display: flex; align-items: center; gap: 24px; width: max-content;">
+          <img src="./assets/logo-begreen.png" alt="BeGreen" style="height: min(2.9vw, 5.4vh, 44px); width: auto; display: block;">
+          <span style="width: 1px; height: clamp(22px, 2.1vw, 32px); background: rgba(255,255,255,0.26);"></span>
+          <img src="./assets/logo-gac.png" alt="GAC" style="height: min(3.1vw, 5.8vh, 48px); width: auto; display: block;">
+        </div>
+
+        
+
+        <div style="display: grid; min-height: 0; width: 247px; height: 113px; align-content: start; margin-top: calc(-1 * min(3.1vw, 5.8vh, 48px));">
+          <h1 style="margin: 0; font-size: 60px; font-weight: 600; line-height: 1.04; letter-spacing: -0.028em; text-wrap: balance; text-shadow: 0 2px 26px rgba(0,0,0,0.55); width: 454px; height: 100%">Uma casa.<br>Três sistemas.<br><span style="color: #23D964;">Energia própria.</span></h1><div style="display: flex; flex-direction: column; gap: 0; max-width: min(560px, 42vw); align-self: start; justify-self: start; margin-top: min(2.2vw, 4vh, 32px);">
+            
+          </div>
+        </div><div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: clamp(18px, 2.8vw, 44px);">
+          <div style="display: flex; align-items: baseline; gap: 9px;">
+            <div style="font-size: min(2.1vw, 4vh, 32px); font-weight: 600; letter-spacing: -0.03em; color: #23D964; line-height: 1; text-shadow: 0 1px 12px rgba(0,0,0,0.75);">+17</div>
+            <div style="font-size: min(0.85vw, 1.6vh, 13px); font-weight: 300; color: rgba(255,255,255,0.8); text-shadow: 0 1px 12px rgba(0,0,0,0.75);">anos de experiência</div>
+          </div>
+          <div style="display: flex; align-items: baseline; gap: 9px;">
+            <div style="font-size: min(2.1vw, 4vh, 32px); font-weight: 600; letter-spacing: -0.03em; color: #23D964; line-height: 1; text-shadow: 0 1px 12px rgba(0,0,0,0.75);">+12k</div>
+            <div style="font-size: min(0.85vw, 1.6vh, 13px); font-weight: 300; color: rgba(255,255,255,0.8); text-shadow: 0 1px 12px rgba(0,0,0,0.75);">pontos de recarga instalados</div>
+          </div>
+          <div style="display: flex; align-items: baseline; gap: 9px;">
+            <div style="font-size: min(2.1vw, 4vh, 32px); font-weight: 600; letter-spacing: -0.03em; color: #23D964; line-height: 1; text-shadow: 0 1px 12px rgba(0,0,0,0.75);">26</div>
+            <div style="font-size: min(0.85vw, 1.6vh, 13px); font-weight: 300; color: rgba(255,255,255,0.8); text-shadow: 0 1px 12px rgba(0,0,0,0.75);">estados atendidos</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 9px; margin-left: auto; font-size: clamp(9px, 0.78vw, 12px); font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.72); text-shadow: 0 1px 12px rgba(0,0,0,0.6);">
+            <span style="width: 6px; height: 6px; border-radius: 50%; background: #23D964;"></span>
+            <span>Engenharia própria · ISO 9001</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="mobileHead">
+    <div style="display: flex; align-items: center; gap: 18px;">
+      <img src="./assets/logo-begreen.png" alt="BeGreen" style="height: 32px; width: auto; display: block;">
+      <span style="width: 1px; height: 24px; background: rgba(255,255,255,0.26);"></span>
+      <img src="./assets/logo-gac.png" alt="GAC" style="height: 34px; width: auto; display: block;">
+    </div>
+    <h2 style="margin: 0; font-size: 30px; font-weight: 600; line-height: 1.08; letter-spacing: -0.028em;">Uma casa. Três sistemas.<br><span style="color: #23D964;">Energia própria.</span></h2>
+    <p style="margin: 0; font-size: 15px; font-weight: 300; line-height: 1.5; color: rgba(255,255,255,0.8);">Projeto, homologação e instalação com equipe própria.</p>
+    <div style="display: flex; flex-wrap: wrap; gap: 18px 26px;">
+      <div style="display: flex; align-items: baseline; gap: 7px;"><span style="font-size: 22px; font-weight: 600; color: #23D964;">+17</span><span style="font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.78);">anos de experiência</span></div>
+      <div style="display: flex; align-items: baseline; gap: 7px;"><span style="font-size: 22px; font-weight: 600; color: #23D964;">+12k</span><span style="font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.78);">pontos de recarga</span></div>
+      <div style="display: flex; align-items: baseline; gap: 7px;"><span style="font-size: 22px; font-weight: 600; color: #23D964;">26</span><span style="font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.78);">estados atendidos</span></div>
+    </div>
+  </div>
+
+  <div id="formZone">
+    <form id="leadForm" novalidate="" style="display: contents;">
+      <div id="formCard" style="width: 100%; display: flex; flex-direction: column; gap: 12px; padding: clamp(14px, 1.3vw, 19px) clamp(15px, 1.4vw, 20px); border-radius: 16px; border: 1px solid rgba(255,255,255,0.16); background: rgba(8,13,10,0.66); backdrop-filter: blur(18px);">
+
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <div style="display: flex; align-items: center; gap: 8px; font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #23D964;">
+            <span style="width: 5px; height: 5px; border-radius: 50%; background: #23D964;"></span>Visita técnica gratuita
+          </div>
+          <div style="font-size: 17px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em;">Preencha aqui para solicitar uma visita técnica gratuita</div>
+        </div>
+
+        <div id="fieldGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; align-items: end;">
+
+          <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
+            <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Nome*</span>
+            <input type="text" name="nome" placeholder="Nome completo" required="" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
+          </label>
+
+          <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
+            <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">CPF/CNPJ*</span>
+            <input type="text" name="cpf_cnpj" data-doc="" placeholder="000.000.000-00" inputmode="numeric" maxlength="18" required="" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
+          </label>
+
+          <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
+            <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Telefone*</span>
+            <input type="tel" name="telefone" data-fone="" placeholder="(11) 9.0000-0000" inputmode="numeric" maxlength="16" required="" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
+          </label>
+
+          <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
+            <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Email*</span>
+            <input type="email" name="email" placeholder="nome@email.com" required="" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
+          </label>
+
+          <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
+            <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Endereço para instalação do carregador*</span>
+            <input type="text" name="endereco" placeholder="Rua / Avenida" required="" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
+          </label>
+
+          <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
+            <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Número da residência*</span>
+            <input type="text" name="numero" placeholder="Nº" required="" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
+          </label>
+
+          <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
+            <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Cidade*</span>
+            <input type="text" name="cidade" placeholder="Cidade" required="" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
+          </label>
+
+          <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
+            <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Estado em que você reside*</span>
+            <select name="estado" required="" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none; appearance: none; cursor: pointer; border-radius: 0;">
+              <option value="" style="background: #0b120e; color: #fff;">Selecione</option>
+              <option value="AC" style="background: #0b120e; color: #fff;">Acre</option>
+              <option value="AL" style="background: #0b120e; color: #fff;">Alagoas</option>
+              <option value="AP" style="background: #0b120e; color: #fff;">Amapá</option>
+              <option value="AM" style="background: #0b120e; color: #fff;">Amazonas</option>
+              <option value="BA" style="background: #0b120e; color: #fff;">Bahia</option>
+              <option value="CE" style="background: #0b120e; color: #fff;">Ceará</option>
+              <option value="DF" style="background: #0b120e; color: #fff;">Distrito Federal</option>
+              <option value="ES" style="background: #0b120e; color: #fff;">Espírito Santo</option>
+              <option value="GO" style="background: #0b120e; color: #fff;">Goiás</option>
+              <option value="MA" style="background: #0b120e; color: #fff;">Maranhão</option>
+              <option value="MT" style="background: #0b120e; color: #fff;">Mato Grosso</option>
+              <option value="MS" style="background: #0b120e; color: #fff;">Mato Grosso do Sul</option>
+              <option value="MG" style="background: #0b120e; color: #fff;">Minas Gerais</option>
+              <option value="PA" style="background: #0b120e; color: #fff;">Pará</option>
+              <option value="PB" style="background: #0b120e; color: #fff;">Paraíba</option>
+              <option value="PR" style="background: #0b120e; color: #fff;">Paraná</option>
+              <option value="PE" style="background: #0b120e; color: #fff;">Pernambuco</option>
+              <option value="PI" style="background: #0b120e; color: #fff;">Piauí</option>
+              <option value="RJ" style="background: #0b120e; color: #fff;">Rio de Janeiro</option>
+              <option value="RN" style="background: #0b120e; color: #fff;">Rio Grande do Norte</option>
+              <option value="RS" style="background: #0b120e; color: #fff;">Rio Grande do Sul</option>
+              <option value="RO" style="background: #0b120e; color: #fff;">Rondônia</option>
+              <option value="RR" style="background: #0b120e; color: #fff;">Roraima</option>
+              <option value="SC" style="background: #0b120e; color: #fff;">Santa Catarina</option>
+              <option value="SP" style="background: #0b120e; color: #fff;">São Paulo</option>
+              <option value="SE" style="background: #0b120e; color: #fff;">Sergipe</option>
+              <option value="TO" style="background: #0b120e; color: #fff;">Tocantins</option>
+            </select>
+          </label>
+
+          <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
+            <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">CEP*</span>
+            <input type="text" name="cep" data-cep="" placeholder="00000-000" inputmode="numeric" maxlength="9" required="" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
+          </label>
+
+          <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
+            <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Tipo de local*</span>
+            <select name="tipo_local" required="" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none; appearance: none; cursor: pointer; border-radius: 0;">
+              <option value="" style="background: #0b120e; color: #fff;">Selecione</option>
+              <option value="Casa" style="background: #0b120e; color: #fff;">Casa</option>
+              <option value="Apartamento" style="background: #0b120e; color: #fff;">Apartamento / Condomínio</option>
+              <option value="Empresa" style="background: #0b120e; color: #fff;">Empresa</option>
+              <option value="Outro" style="background: #0b120e; color: #fff;">Outro</option>
+            </select>
+          </label>
+
+          <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
+            <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Modelo do veículo*</span>
+            <input type="text" name="modelo_veiculo" placeholder="GAC AION Y" required="" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none;">
+          </label>
+
+          <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
+            <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Concessionária GAC*</span>
+            <select name="concessionaria" required="" style="width: 100%; background: transparent; border: 0; border-bottom: 1px solid rgba(255,255,255,0.32); padding: 0 0 7px; font-size: 14px; color: #fff; outline: none; appearance: none; cursor: pointer; border-radius: 0;">
+              <option value="" style="background: #0b120e; color: #fff;">Selecione</option>
+              <option value="GAC Abrão Reze Sorocaba" style="background: #0b120e; color: #fff;">GAC Abrão Reze Sorocaba</option>
+              <option value="GAC Amazonas Anália Franco" style="background: #0b120e; color: #fff;">GAC Amazonas Anália Franco</option>
+              <option value="GAC Automob GRU" style="background: #0b120e; color: #fff;">GAC Automob GRU</option>
+              <option value="GAC Automob Mogi das Cruzes" style="background: #0b120e; color: #fff;">GAC Automob Mogi das Cruzes</option>
+              <option value="GAC Automob São Luís" style="background: #0b120e; color: #fff;">GAC Automob São Luís</option>
+              <option value="GAC Automob SJC" style="background: #0b120e; color: #fff;">GAC Automob SJC</option>
+              <option value="GAC Autonunes Recife" style="background: #0b120e; color: #fff;">GAC Autonunes Recife</option>
+              <option value="GAC Barigui Blumenau" style="background: #0b120e; color: #fff;">GAC Barigui Blumenau</option>
+              <option value="GAC Barigui Joinville" style="background: #0b120e; color: #fff;">GAC Barigui Joinville</option>
+              <option value="GAC Canopus Belém" style="background: #0b120e; color: #fff;">GAC Canopus Belém</option>
+              <option value="GAC Canopus Manaus" style="background: #0b120e; color: #fff;">GAC Canopus Manaus</option>
+              <option value="GAC Canopus Palmas" style="background: #0b120e; color: #fff;">GAC Canopus Palmas</option>
+              <option value="GAC Canopus Várzea Grande" style="background: #0b120e; color: #fff;">GAC Canopus Várzea Grande</option>
+              <option value="GAC Carrera Cotia" style="background: #0b120e; color: #fff;">GAC Carrera Cotia</option>
+              <option value="GAC Carrera Gastão" style="background: #0b120e; color: #fff;">GAC Carrera Gastão</option>
+              <option value="GAC Carrera Morumbi" style="background: #0b120e; color: #fff;">GAC Carrera Morumbi</option>
+              <option value="GAC Comeri Santos" style="background: #0b120e; color: #fff;">GAC Comeri Santos</option>
+              <option value="GAC Dinastia Salvador" style="background: #0b120e; color: #fff;">GAC Dinastia Salvador</option>
+              <option value="GAC Dr Sul Porto Alegre" style="background: #0b120e; color: #fff;">GAC Dr Sul Porto Alegre</option>
+              <option value="GAC FORT Rogaciano Leite" style="background: #0b120e; color: #fff;">GAC FORT Rogaciano Leite</option>
+              <option value="GAC FORT Santos Dumont" style="background: #0b120e; color: #fff;">GAC FORT Santos Dumont</option>
+              <option value="GAC Javep Araçatuba (Shopping)" style="background: #0b120e; color: #fff;">GAC Javep Araçatuba (Shopping)</option>
+              <option value="GAC Javep Bauru" style="background: #0b120e; color: #fff;">GAC Javep Bauru</option>
+              <option value="GAC Javep Presidente Prudente (Shopping)" style="background: #0b120e; color: #fff;">GAC Javep Presidente Prudente (Shopping)</option>
+              <option value="GAC Jelta Teresina (Shopping)" style="background: #0b120e; color: #fff;">GAC Jelta Teresina (Shopping)</option>
+              <option value="GAC Jorlan Aeroporto" style="background: #0b120e; color: #fff;">GAC Jorlan Aeroporto</option>
+              <option value="GAC Jorlan Barão" style="background: #0b120e; color: #fff;">GAC Jorlan Barão</option>
+              <option value="GAC Jorlan Pampulha" style="background: #0b120e; color: #fff;">GAC Jorlan Pampulha</option>
+              <option value="GAC Jorlan SIA" style="background: #0b120e; color: #fff;">GAC Jorlan SIA</option>
+              <option value="GAC Lider Niterói" style="background: #0b120e; color: #fff;">GAC Lider Niterói</option>
+              <option value="GAC Lider Vila Velha" style="background: #0b120e; color: #fff;">GAC Lider Vila Velha</option>
+              <option value="GAC Lider Vitória" style="background: #0b120e; color: #fff;">GAC Lider Vitória</option>
+              <option value="GAC Navesa Goiânia" style="background: #0b120e; color: #fff;">GAC Navesa Goiânia</option>
+              <option value="GAC Premium Rio Barra" style="background: #0b120e; color: #fff;">GAC Premium Rio Barra</option>
+              <option value="GAC ProAuto Europa" style="background: #0b120e; color: #fff;">GAC ProAuto Europa</option>
+              <option value="GAC ProAuto Sumaré" style="background: #0b120e; color: #fff;">GAC ProAuto Sumaré</option>
+              <option value="GAC Santa Emília Ribeirão Preto" style="background: #0b120e; color: #fff;">GAC Santa Emília Ribeirão Preto</option>
+              <option value="GAC Servopa Curitiba" style="background: #0b120e; color: #fff;">GAC Servopa Curitiba</option>
+              <option value="GAC Servopa Londrina" style="background: #0b120e; color: #fff;">GAC Servopa Londrina</option>
+              <option value="GAC Servopa Maringá" style="background: #0b120e; color: #fff;">GAC Servopa Maringá</option>
+              <option value="GAC Shantou Aracaju" style="background: #0b120e; color: #fff;">GAC Shantou Aracaju</option>
+              <option value="GAC Sinal Alphaville" style="background: #0b120e; color: #fff;">GAC Sinal Alphaville</option>
+              <option value="GAC Sinal Indianópolis" style="background: #0b120e; color: #fff;">GAC Sinal Indianópolis</option>
+              <option value="GAC Sinal SCS" style="background: #0b120e; color: #fff;">GAC Sinal SCS</option>
+              <option value="GAC Sperandio Chapecó" style="background: #0b120e; color: #fff;">GAC Sperandio Chapecó</option>
+              <option value="GAC STA Motors João Pessoa" style="background: #0b120e; color: #fff;">GAC STA Motors João Pessoa</option>
+              <option value="GAC STA Motors Maceió" style="background: #0b120e; color: #fff;">GAC STA Motors Maceió</option>
+              <option value="GAC STA Motors Natal" style="background: #0b120e; color: #fff;">GAC STA Motors Natal</option>
+              <option value="GAC Stefanini Campinas" style="background: #0b120e; color: #fff;">GAC Stefanini Campinas</option>
+              <option value="GAC Stefanini Jundiaí" style="background: #0b120e; color: #fff;">GAC Stefanini Jundiaí</option>
+              <option value="GAC Stefanini Piracicaba" style="background: #0b120e; color: #fff;">GAC Stefanini Piracicaba</option>
+              <option value="GAC Superauto BR Balneário Camboriú" style="background: #0b120e; color: #fff;">GAC Superauto BR Balneário Camboriú</option>
+              <option value="GAC Superauto BR Kobrasol" style="background: #0b120e; color: #fff;">GAC Superauto BR Kobrasol</option>
+              <option value="GAC Urca Uberlândia" style="background: #0b120e; color: #fff;">GAC Urca Uberlândia</option>
+            </select>
+          </label>
+
+        </div>
+
+        <label style="display: flex; align-items: flex-start; gap: 9px; font-size: 11.5px; font-weight: 300; line-height: 1.45; color: rgba(255,255,255,0.8); cursor: pointer;">
+          <input type="checkbox" name="consentimento" style="width: 14px; height: 14px; margin: 2px 0 0; accent-color: #23D964; flex: 0 0 auto;">
+          <span>Eu concordo em receber comunicações da BeGreen para saber mais sobre minha instalação.</span>
+        </label>
+
+        <p style="margin: 0; font-size: 10.5px; font-weight: 300; line-height: 1.5; color: rgba(255,255,255,0.55);">A nossa empresa está comprometida a proteger e respeitar sua privacidade. Ao informar meus dados, estou ciente das diretrizes da <a href="#" style="text-decoration: underline;">Política de Privacidade</a>.</p>
+
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <button type="submit" id="btnEnviar" style="width: 100%; padding: 13px 26px; border: 0; border-radius: 999px; background: #23D964; color: #06120a; font-size: 15.5px; font-weight: 600; letter-spacing: -0.01em; cursor: pointer; transition: background 160ms ease;">Enviar Formulário</button>
+          <div id="statusMsg" style="display: none; font-size: 11.5px; font-weight: 300; text-align: center; color: rgba(255,255,255,0.78);"></div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() {
+    this.fit = this.fit.bind(this);
+    this.fit();
+    window.addEventListener('resize', this.fit);
+    window.addEventListener('orientationchange', this.fit);
+    window.addEventListener('load', this.fit);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(this.fit);
+    this.wireMasks();
+    this.wireSubmit();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.fit);
+    window.removeEventListener('orientationchange', this.fit);
+    window.removeEventListener('load', this.fit);
+  }
+  fit() {
+    var stageEl = document.getElementById('stage');
+    var hero = document.getElementById('hero');
+    if (hero) hero.style.removeProperty('height');
+    if (!stageEl) return;
+    var W = stageEl.clientWidth, H = stageEl.clientHeight, iw = 1448, ih = 1086;
+    if (!W || !H) return;
+    var s = Math.max(W / iw, H / ih), dw = iw * s, dh = ih * s;
+    var py = window.matchMedia('(max-width: 900px)').matches ? 0.5 : 0.16;
+    var ox = (W - dw) * 0.5, oy = (H - dh) * py;
+    function box(id, fx, fy, fw, fh) {
+      var el = document.getElementById(id); if (!el) return;
+      el.style.left = (ox + fx * dw) + 'px';
+      el.style.top = (oy + fy * dh) + 'px';
+      el.style.width = Math.max(2, fw * dw) + 'px';
+      el.style.height = Math.max(2, fh * dh) + 'px';
+    }
+    function disc(id, fx, fy, fr) {
+      var el = document.getElementById(id); if (!el) return;
+      var d = Math.max(6, 2 * fr * dw);
+      el.style.left = (ox + fx * dw - d / 2) + 'px';
+      el.style.top = (oy + fy * dh - d / 2) + 'px';
+      el.style.width = d + 'px';
+      el.style.height = d + 'px';
+    }
+    var zone = document.getElementById('formZone');
+    if (zone) {
+      if (window.matchMedia('(max-width: 900px)').matches) {
+        zone.style.width = '';
+        zone.style.top = '';
+      } else {
+        var sr0 = stageEl.getBoundingClientRect();
+        var zoneRight = zone.getBoundingClientRect().right - sr0.left;
+        var room = zoneRight - (ox + 0.755 * dw);
+        var wCard = Math.max(324, Math.min(448, room));
+        zone.style.width = wCard + 'px';
+        // if the card cannot stay clear of the battery caption horizontally,
+        // drop it below the caption band instead of crossing it
+        var cardLeft = zoneRight - wCard;
+        var overlaps = cardLeft < (ox + 0.742 * dw);
+        // the battery unit + LED sit at frac x 0.62-0.695, y 0.525-0.668
+        var hitsUnit = cardLeft < (ox + 0.695 * dw);
+        var want = hitsUnit ? oy + 0.672 * dh : overlaps ? oy + 0.535 * dh : 74;
+        // never collapse the card: keep at least 400px of usable height
+        var bottomGap = parseFloat(getComputedStyle(zone).bottom) || 24;
+        var maxTop = stageEl.clientHeight - bottomGap - 400;
+        zone.style.top = Math.max(74, Math.min(want, Math.max(74, maxTop))) + 'px';
+      }
+    }
+    var row = document.getElementById('logoRow');
+    if (row) {
+      row.style.transform = 'none';
+      var rr = row.getBoundingClientRect(), sr3 = stageEl.getBoundingClientRect();
+      row.style.transform = 'translateX(' + (((sr3.width - rr.width) / 2) - (rr.left - sr3.left)) + 'px)';
+    }
+    box('battFill', 0.6560, 0.5626, 0.0031, 0.0672);
+    disc('fxBattGlow', 0.6572, 0.5967, 0.0470);
+    disc('fxEv', 0.1222, 0.5267, 0.0230);
+  }
+  wireMasks() {
+    function fone(v) {
+      var d = String(v || '').replace(/\D/g, '').slice(0, 11);
+      if (!d) return '';
+      if (d.length <= 2) return '(' + d;
+      var out = '(' + d.slice(0, 2) + ') ';
+      if (d.length <= 3) return out + d.slice(2);
+      if (d.length <= 7) return out + d.slice(2, 3) + '.' + d.slice(3);
+      return out + d.slice(2, 3) + '.' + d.slice(3, 7) + '-' + d.slice(7);
+    }
+    function doc(v) {
+      var d = String(v || '').replace(/\D/g, '').slice(0, 14);
+      if (d.length <= 11) {
+        return d.replace(/^(\d{3})(\d)/, '$1.$2').replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3')
+                .replace(/\.(\d{3})(\d{1,2})$/, '.$1-$2');
+      }
+      return d.replace(/^(\d{2})(\d)/, '$1.$2').replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+              .replace(/\.(\d{3})(\d)/, '.$1/$2').replace(/(\d{4})(\d{1,2})$/, '$1-$2');
+    }
+    function cep(v) {
+      var d = String(v || '').replace(/\D/g, '').slice(0, 8);
+      return d.length > 5 ? d.slice(0, 5) + '-' + d.slice(5) : d;
+    }
+    var form = document.getElementById('leadForm');
+    if (!form) return;
+    [['[data-fone]', fone], ['[data-doc]', doc], ['[data-cep]', cep]].forEach(function (pair) {
+      Array.prototype.forEach.call(form.querySelectorAll(pair[0]), function (el) {
+        el.addEventListener('input', function () { el.value = pair[1](el.value); });
+      });
+    });
+    Array.prototype.forEach.call(form.querySelectorAll('[data-fone]'), function (el) {
+      el.addEventListener('blur', function () {
+        if (el.value && el.value.replace(/\D/g, '').length !== 11) el.setCustomValidity('Telefone incompleto');
+        else el.setCustomValidity('');
+      });
+      el.addEventListener('focus', function () { el.setCustomValidity(''); });
+    });
+  }
+  wireSubmit() {
+    var form = document.getElementById('leadForm');
+    var btn = document.getElementById('btnEnviar');
+    var card = document.getElementById('formCard');
+    var status = document.getElementById('statusMsg');
+    if (!form) return;
+    var cfg = window.RD_CONFIG || { endpoint: '/api/lead', identificador: 'lp-begreen-gac-aion-y' };
+    function say(msg, color) {
+      status.textContent = msg;
+      status.style.color = color || 'rgba(255,255,255,0.78)';
+      status.style.display = 'block';
+    }
+    function utm(n) { return new URLSearchParams(location.search).get(n) || ''; }
+    function cookie(n) {
+      var m = document.cookie.match('(^|;)\\s*' + n + '\\s*=\\s*([^;]+)');
+      return m ? decodeURIComponent(m.pop()) : '';
+    }
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      Array.prototype.forEach.call(form.querySelectorAll('input,select'), function (el) {
+        el.setAttribute('data-touched', '');
+      });
+      if (!form.checkValidity()) { say('Preencha os campos obrigatórios.', '#ffb4b4'); return; }
+      var d = new FormData(form);
+      function g(k) { return (d.get(k) || '').toString().trim(); }
+      var dados = {
+        conversion_identifier: cfg.identificador,
+        cliente_nome: g('nome'),
+        cliente_email: g('email'),
+        cliente_telefone: g('telefone'),
+        cpf_cnpj: g('cpf_cnpj'),
+        endereco: g('endereco'),
+        numero: g('numero'),
+        cidade: g('cidade'),
+        estado: g('estado'),
+        cep: g('cep'),
+        tipo_local: g('tipo_local'),
+        modelo_veiculo: g('modelo_veiculo'),
+        concessionaria: g('concessionaria'),
+        consentimento: form.querySelector('[name="consentimento"]').checked,
+        traffic_source: cookie('__trf.src'),
+        utm_source: utm('utm_source'),
+        utm_medium: utm('utm_medium'),
+        utm_campaign: utm('utm_campaign'),
+        page_url: location.href
+      };
+      btn.disabled = true;
+      btn.style.opacity = '0.7';
+      say('Enviando…');
+      function ok() {
+        form.reset();
+        if (card) {
+          card.style.transition = 'background 400ms ease, border-color 400ms ease, box-shadow 400ms ease';
+          card.style.background = 'rgba(18,92,48,0.78)';
+          card.style.borderColor = 'rgba(35,217,100,0.85)';
+          card.style.boxShadow = '0 0 0 1px rgba(35,217,100,0.35), 0 12px 48px rgba(35,217,100,0.22)';
+          setTimeout(function () {
+            card.style.background = 'rgba(8,13,10,0.66)';
+            card.style.borderColor = 'rgba(255,255,255,0.16)';
+            card.style.boxShadow = 'none';
+          }, 6000);
+        }
+        say('Recebemos suas informações. Obrigado!', '#23D964');
+        if (window.dataLayer) window.dataLayer.push({ event: 'lead_enviado' });
+      }
+      fetch(cfg.endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dados)
+      }).then(function (r) {
+        if (r.ok) { ok(); return; }
+        return r.text().then(function (t) { throw new Error('HTTP ' + r.status + ' ' + t); });
+      }).catch(function (err) {
+        console.warn('RD Station:', err && err.message);
+        say('Não foi possível enviar. Tente novamente.', '#ffb4b4');
+      }).finally(function () {
+        btn.disabled = false;
+        btn.style.opacity = '1';
+      });
+    });
+  }
+}
+</script>
+</body>
+</html>
