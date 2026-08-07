@@ -97,7 +97,7 @@
     body { overflow-y: auto; }
     #pageInner { height: auto !important; overflow: visible; display: grid; }
     #hero { position: relative; inset: auto; overflow: visible; }
-    #stage { position: relative; inset: auto; width: 100%; height: auto; aspect-ratio: 1448 / 1086; }
+    #stage { position: relative; inset: auto; width: 100%; height: auto; aspect-ratio: 1536 / 1024; }
     #stageGrid { display: none !important; }
     #mobileHead { display: flex; flex-direction: column; gap: 16px; padding: 22px 20px 18px; }
     #mobileSystems { display: grid !important; }
@@ -115,7 +115,7 @@
 
   <div id="hero">
     <div id="stage">
-      <img id="heroImg" src="./assets/casa-gac-hero.jpg" alt="Casa residencial com sistema fotovoltaico, veículo elétrico GAC carregando e bateria de armazenamento">
+      <img id="heroImg" src="./assets/hero-lp.jpg" alt="Casa residencial com sistema fotovoltaico, veículo elétrico GAC carregando e bateria de armazenamento">
       <div class="veil" style="background: linear-gradient(170deg, rgba(6,10,8,0.8) 0%, rgba(6,10,8,0.32) 26%, rgba(6,10,8,0) 44%);"></div>
       <div class="veil" style="background: linear-gradient(0deg, rgba(6,10,8,0.62) 0%, rgba(6,10,8,0.26) 13%, rgba(6,10,8,0) 32%);"></div>
 
@@ -402,7 +402,7 @@ class Component extends DCLogic {
     var hero = document.getElementById('hero');
     if (hero) hero.style.removeProperty('height');
     if (!stageEl) return;
-    var W = stageEl.clientWidth, H = stageEl.clientHeight, iw = 2880, ih = 1200;
+    var W = stageEl.clientWidth, H = stageEl.clientHeight, iw = 2100, ih = 1024;
     if (!W || !H) return;
     var s = Math.max(W / iw, H / ih), dw = iw * s, dh = ih * s;
     // the stage carries the image ratio exactly, so the drawn image fills it with no offset
@@ -436,8 +436,8 @@ class Component extends DCLogic {
         var gapB = parseFloat(getComputedStyle(zone).bottom) || 24;
         // measured on the drawn image: battery caption ends at x 0.662, the
         // photovoltaic caption occupies the frame down to y 0.18
-        var avail = pr.width - gapR - (ox + 0.6417 * dw) - 12;
-        var topLimit = oy + 0.18 * dh;
+        var avail = pr.width - gapR - (ox + 0.6481 * dw) - 12;
+        var topLimit = oy + 0.235 * dh;
         var minW = 272;
         var W2 = Math.max(minW, Math.min(344, avail));
         zone.style.transform = 'none';
@@ -453,9 +453,9 @@ class Component extends DCLogic {
       var rr = row.getBoundingClientRect(), sr3 = stageEl.getBoundingClientRect();
       row.style.transform = 'translateX(' + (((sr3.width - rr.width) / 2) - (rr.left - sr3.left)) + 'px)';
     }
-    box('battFill', 0.5867, 0.5626, 0.0017, 0.0672);
-    disc('fxBattGlow', 0.5873, 0.5967, 0.0261);
-    disc('fxEv', 0.2901, 0.5267, 0.0128);
+    box('battFill', 0.6019, 0.5801, 0.0019, 0.0596);
+    disc('fxBattGlow', 0.6024, 0.6094, 0.0343);
+    disc('fxEv', 0.2374, 0.5537, 0.0162);
   }
   wireMasks() {
     function fone(v) {
