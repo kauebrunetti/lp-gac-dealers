@@ -24,16 +24,10 @@
   input:focus, select:focus { border-bottom-color: #23D964 !important; }
   #btnEnviar:hover { background: #43ef7e !important; }
   input:invalid[data-touched], select:invalid[data-touched] { border-bottom-color: #ff6b6b !important; }
-  #pageInner { height: 100dvh; min-height: 0; overflow: hidden;
-    --vh: max(100dvh, 540px);
-    --stageW: min(100vw, var(--vh) * 1448 / 1086);
-    --stageH: min(var(--vh), 100vw * 1086 / 1448);
-    --barX: max(0px, (100vw - var(--stageW)) / 2);
-    --barY: max(0px, (var(--vh) - var(--stageH)) / 2); }
+  #pageInner { height: 100dvh; min-height: 0; overflow: hidden; }
   #hero { position: absolute; inset: 0; overflow: hidden; }
-  #stage { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
-    width: var(--stageW); height: var(--stageH); }
-  #heroImg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
+  #stage { position: absolute; inset: 0; }
+  #heroImg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; }
   #stage .veil { position: absolute; inset: 0; pointer-events: none; }
   #stageGrid { position: absolute; inset: 0; display: grid; grid-template-rows: auto 1fr auto;
     padding: clamp(12px, 1.6vw, 26px) calc(clamp(352px, 28vw, 448px) + clamp(24px, 4.2vw, 76px) + 30px) clamp(18px, 2.2vw, 38px) clamp(24px, 4.2vw, 76px); }
@@ -90,23 +84,25 @@
     #fxSun { opacity: 0.6; }
   }
   #mobileHead { display: none; }
+  #mobileSystems { display: none; }
 
-  #formZone { position: absolute; top: calc(var(--barY) + 74px);
-    bottom: calc(var(--barY) + clamp(14px, 1.8vw, 30px));
-    right: calc(var(--barX) + clamp(14px, 2vw, 38px));
-    width: clamp(352px, 28vw, 448px); display: flex; align-items: flex-end; }
-  #formCard { max-height: 100%; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
-  #formCard::-webkit-scrollbar { width: 6px; }
-  #formCard::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.18); border-radius: 3px; }
+  #formZone { position: absolute; top: auto; height: auto;
+    bottom: clamp(14px, 1.8vw, 30px);
+    right: clamp(14px, 2vw, 38px);
+    width: clamp(248px, 22vw, 344px); display: flex; align-items: flex-end;
+    transform-origin: 100% 100%; }
+  #formCard { max-height: none; overflow: hidden; }
 
   @media (max-width: 900px) {
     body { overflow-y: auto; }
-    #pageInner { height: auto !important; overflow: visible; display: grid; grid-template-rows: auto auto auto; }
+    #pageInner { height: auto !important; overflow: visible; display: grid; }
     #hero { position: relative; inset: auto; overflow: visible; }
     #stage { position: relative; left: auto; top: auto; transform: none; width: 100%; height: auto; aspect-ratio: 1448 / 1086; }
+    #heroImg { object-position: 50% 50%; }
     #stageGrid { display: none !important; }
     #mobileHead { display: flex; flex-direction: column; gap: 16px; padding: 22px 20px 18px; }
-    #formZone { position: relative; inset: auto; right: auto; top: auto; bottom: auto; width: auto; padding: 0 14px 22px; }
+    #mobileSystems { display: grid !important; }
+    #formZone { position: relative; inset: auto; right: auto; top: auto; bottom: auto; width: auto; height: auto; transform: none !important; padding: 0 14px 22px; }
     #formCard { max-height: none; overflow: visible; }
     #fieldGrid { grid-template-columns: 1fr 1fr !important; }
   }
@@ -166,7 +162,7 @@
   </div>
 
   <div id="mobileHead">
-    <div style="display: flex; align-items: center; gap: 18px;">
+    <div style="display: flex; align-items: center; justify-content: center; gap: 18px; align-self: center;">
       <img src="./assets/logo-begreen.png" alt="BeGreen" style="height: 32px; width: auto; display: block;">
       <span style="width: 1px; height: 24px; background: rgba(255,255,255,0.26);"></span>
       <img src="./assets/logo-gac.png" alt="GAC" style="height: 34px; width: auto; display: block;">
@@ -177,6 +173,27 @@
       <div style="display: flex; align-items: baseline; gap: 7px;"><span style="font-size: 22px; font-weight: 600; color: #23D964;">+17</span><span style="font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.78);">anos de experiência</span></div>
       <div style="display: flex; align-items: baseline; gap: 7px;"><span style="font-size: 22px; font-weight: 600; color: #23D964;">+12k</span><span style="font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.78);">pontos de recarga</span></div>
       <div style="display: flex; align-items: baseline; gap: 7px;"><span style="font-size: 22px; font-weight: 600; color: #23D964;">26</span><span style="font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.78);">estados atendidos</span></div>
+    </div>
+  </div>
+
+  <div id="mobileSystems" style="gap: 20px; padding: 4px 20px 24px;">
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <div style="display: flex; align-items: center; gap: 9px; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #23D964;">
+        <span style="width: 6px; height: 6px; border-radius: 50%; background: #23D964;"></span>Carregador para veículo elétrico
+      </div>
+      <p style="margin: 0; font-size: 15px; font-weight: 300; line-height: 1.5; color: rgba(255,255,255,0.8);">Mobilidade elétrica com praticidade e segurança.</p>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <div style="display: flex; align-items: center; gap: 9px; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #23D964;">
+        <span style="width: 6px; height: 6px; border-radius: 50%; background: #23D964;"></span>Bateria de armazenamento
+      </div>
+      <p style="margin: 0; font-size: 15px; font-weight: 300; line-height: 1.5; color: rgba(255,255,255,0.8);">Armazena o excedente de energia e garante autonomia quando você mais precisa.</p>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <div style="display: flex; align-items: center; gap: 9px; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #23D964;">
+        <span style="width: 6px; height: 6px; border-radius: 50%; background: #23D964;"></span>Energia fotovoltaica
+      </div>
+      <p style="margin: 0; font-size: 15px; font-weight: 300; line-height: 1.5; color: rgba(255,255,255,0.8);">Sua própria energia limpa e renovável.</p>
     </div>
   </div>
 
@@ -191,7 +208,7 @@
           <div style="font-size: 17px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em;">Preencha aqui para solicitar uma visita técnica gratuita</div>
         </div>
 
-        <div id="fieldGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; align-items: end;">
+        <div id="fieldGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 11px 12px; align-items: end;">
 
           <label style="display: flex; flex-direction: column; gap: 5px; min-width: 0;">
             <span style="font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Nome*</span>
@@ -348,10 +365,10 @@
 
         <label style="display: flex; align-items: flex-start; gap: 9px; font-size: 11.5px; font-weight: 300; line-height: 1.45; color: rgba(255,255,255,0.8); cursor: pointer;">
           <input type="checkbox" name="consentimento" style="width: 14px; height: 14px; margin: 2px 0 0; accent-color: #23D964; flex: 0 0 auto;">
-          <span>Eu concordo em receber comunicações da BeGreen para saber mais sobre minha instalação.</span>
+          <span>Eu concordo em receber comunicações da BeGreen e da concessionária GAC selecionada para saber mais sobre minha instalação.</span>
         </label>
 
-        <p style="margin: 0; font-size: 10.5px; font-weight: 300; line-height: 1.5; color: rgba(255,255,255,0.55);">A nossa empresa está comprometida a proteger e respeitar sua privacidade. Ao informar meus dados, estou ciente das diretrizes da <a href="#" style="text-decoration: underline;">Política de Privacidade</a>.</p>
+        <p style="margin: 0; font-size: 10.5px; font-weight: 300; line-height: 1.5; color: rgba(255,255,255,0.55);">A nossa empresa está comprometida a proteger e respeitar sua privacidade. Ao informar meus dados, estou ciente das diretrizes da <a href="./politica-de-privacidade.html" target="_blank" rel="noopener" style="text-decoration: underline;">Política de Privacidade</a>.</p>
 
         <div style="display: flex; flex-direction: column; gap: 8px;">
           <button type="submit" id="btnEnviar" style="width: 100%; padding: 13px 26px; border: 0; border-radius: 999px; background: #23D964; color: #06120a; font-size: 15.5px; font-weight: 600; letter-spacing: -0.01em; cursor: pointer; transition: background 160ms ease;">Enviar Formulário</button>
@@ -407,31 +424,28 @@ class Component extends DCLogic {
       el.style.height = d + 'px';
     }
     var zone = document.getElementById('formZone');
-    if (zone) {
+    var card = document.getElementById('formCard');
+    if (zone && card) {
       if (window.matchMedia('(max-width: 900px)').matches) {
         zone.style.width = '';
         zone.style.top = '';
+        zone.style.transform = '';
       } else {
-        var sr0 = stageEl.getBoundingClientRect();
-        var zoneRight = zone.getBoundingClientRect().right - sr0.left;
-        var room = zoneRight - (ox + 0.755 * dw);
-        var wCard = Math.max(324, Math.min(448, room));
-        zone.style.width = wCard + 'px';
-        // if the card cannot stay clear of the battery caption horizontally,
-        // drop it below the caption band instead of crossing it
-        var cardLeft = zoneRight - wCard;
-        var overlaps = cardLeft < (ox + 0.742 * dw);
-        // the battery unit + LED sit at frac x 0.62-0.695, y 0.525-0.668
-        var hitsUnit = cardLeft < (ox + 0.695 * dw);
-        var want = hitsUnit ? oy + 0.672 * dh : overlaps ? oy + 0.535 * dh : 74;
-        // never collapse the card: keep at least 400px of usable height
-        var bottomGap = parseFloat(getComputedStyle(zone).bottom) || 24;
-        var maxTop = stageEl.clientHeight - bottomGap - 400;
-        var topLocal = Math.max(74, Math.min(want, Math.max(74, maxTop)));
-        // the stage is letterboxed inside the page: shift into page coordinates
         var pageEl = document.getElementById('pageInner');
-        var barY = pageEl ? (sr0.top - pageEl.getBoundingClientRect().top) : 0;
-        zone.style.top = (topLocal + barY) + 'px';
+        var pr = pageEl.getBoundingClientRect();
+        var sr0 = stageEl.getBoundingClientRect();
+        // the battery caption ends at 0.755 of the image width — never cross it
+        var textRight = (sr0.left - pr.left) + 0.755 * sr0.width;
+        var gapR = parseFloat(getComputedStyle(zone).right) || 24;
+        var gapB = parseFloat(getComputedStyle(zone).bottom) || 24;
+        var avail = pr.width - gapR - textRight - 12;
+        var minW = 248;
+        var W = Math.max(minW, Math.min(344, avail));
+        zone.style.transform = 'none';
+        zone.style.width = W + 'px';
+        // the rendered card is W * s wide, so it must satisfy BOTH constraints
+        var s = Math.min(1, (pr.height - gapB - 16) / card.scrollHeight, avail / W);
+        zone.style.transform = s < 1 ? 'scale(' + s + ')' : 'none';
       }
     }
     var row = document.getElementById('logoRow');

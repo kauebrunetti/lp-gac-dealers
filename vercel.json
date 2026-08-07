@@ -10,6 +10,10 @@
       "use": "@vercel/static"
     },
     {
+      "src": "politica-de-privacidade.html",
+      "use": "@vercel/static"
+    },
+    {
       "src": "support.js",
       "use": "@vercel/static"
     },
@@ -30,6 +34,14 @@
     {
       "src": "/assets/(.*)",
       "dest": "/assets/$1"
+    },
+    {
+      "src": "/politica-de-privacidade\\.html",
+      "dest": "/politica-de-privacidade.html"
+    },
+    {
+      "src": "/politica-de-privacidade",
+      "dest": "/politica-de-privacidade.html"
     },
     {
       "src": "/(.*)",
