@@ -27,7 +27,7 @@
   #pageInner { height: 100dvh; min-height: 0; overflow: hidden; }
   #hero { position: absolute; inset: 0; overflow: hidden; }
   #stage { position: absolute; inset: 0; }
-  #heroImg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
+  #heroImg { position: absolute; left: 0; top: 0; max-width: none; }
   #stage .veil { position: absolute; inset: 0; pointer-events: none; }
   #stageGrid { position: absolute; inset: 0; display: grid; grid-template-rows: auto 1fr auto;
     padding: clamp(12px, 1.6vw, 26px) calc(clamp(352px, 28vw, 448px) + clamp(24px, 4.2vw, 76px) + 30px) clamp(18px, 2.2vw, 38px) clamp(24px, 4.2vw, 76px); }
@@ -402,11 +402,20 @@ class Component extends DCLogic {
     var hero = document.getElementById('hero');
     if (hero) hero.style.removeProperty('height');
     if (!stageEl) return;
-    var W = stageEl.clientWidth, H = stageEl.clientHeight, iw = 2100, ih = 1024;
+    var W = stageEl.clientWidth, H = stageEl.clientHeight, iw = 1536, ih = 1024;
     if (!W || !H) return;
     var s = Math.max(W / iw, H / ih), dw = iw * s, dh = ih * s;
-    // the stage carries the image ratio exactly, so the drawn image fills it with no offset
-    var ox = (W - dw) * 0.5, oy = (H - dh) * 0.5;
+    // fill the frame edge to edge; spend the vertical overflow on the driveway at the
+    // bottom, never taking more than 62px of source sky off the top (the photovoltaic
+    // caption starts at y=74)
+    var ox = (W - dw) * 0.5, oy = -Math.min(62 * s, Math.max(0, dh - H));
+    var hi = document.getElementById('heroImg');
+    if (hi) {
+      hi.style.width = dw + 'px';
+      hi.style.height = dh + 'px';
+      hi.style.left = ox + 'px';
+      hi.style.top = oy + 'px';
+    }
     function box(id, fx, fy, fw, fh) {
       var el = document.getElementById(id); if (!el) return;
       el.style.left = (ox + fx * dw) + 'px';
@@ -436,8 +445,8 @@ class Component extends DCLogic {
         var gapB = parseFloat(getComputedStyle(zone).bottom) || 24;
         // measured on the drawn image: battery caption ends at x 0.662, the
         // photovoltaic caption occupies the frame down to y 0.18
-        var avail = pr.width - gapR - (ox + 0.6481 * dw) - 12;
-        var topLimit = oy + 0.235 * dh;
+        var avail = pr.width - gapR - (ox + 0.7025 * dw) - 12;
+        var topLimit = Math.max(0, oy + 0.185 * dh);
         var minW = 272;
         var W2 = Math.max(minW, Math.min(344, avail));
         zone.style.transform = 'none';
@@ -453,9 +462,9 @@ class Component extends DCLogic {
       var rr = row.getBoundingClientRect(), sr3 = stageEl.getBoundingClientRect();
       row.style.transform = 'translateX(' + (((sr3.width - rr.width) / 2) - (rr.left - sr3.left)) + 'px)';
     }
-    box('battFill', 0.6019, 0.5801, 0.0019, 0.0596);
-    disc('fxBattGlow', 0.6024, 0.6094, 0.0343);
-    disc('fxEv', 0.2374, 0.5537, 0.0162);
+    box('battFill', 0.6393, 0.5801, 0.0026, 0.0596);
+    disc('fxBattGlow', 0.6400, 0.6094, 0.0469);
+    disc('fxEv', 0.1410, 0.5537, 0.0221);
   }
   wireMasks() {
     function fone(v) {
